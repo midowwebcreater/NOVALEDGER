@@ -2,24 +2,24 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Finaxis | Fintech Admin Dashboard</title>
+<title>Finaxis | FinTech Admin Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="icon" href="favicon.ico" />
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
 <style>
-/* ==== SAME PREMIUM THEME (UNCHANGED) ==== */
+/* ===============================
+   FINAXIS – ENTERPRISE DARK THEME
+   =============================== */
 :root{
   --bg:#0B1220; --sidebar:#0A0F1C; --panel:#0F172A; --panel2:#141E36;
-  --border:#1F2A44; --accent:#22C55E; --blue:#3B82F6;
+  --border:#1F2A44; --accent:#22C55E; --blue:#3B82F6; --red:#EF4444;
   --text:#E5E7EB; --muted:#94A3B8;
 }
 *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif}
 body{margin:0;background:var(--bg);color:var(--text)}
 .hidden{display:none}
 
-/* LOGIN */
+/* ===== LOGIN ===== */
 .login-wrap{height:100vh;display:flex;align-items:center;justify-content:center}
 .login{
   width:380px;background:linear-gradient(180deg,var(--panel),var(--panel2));
@@ -37,9 +37,11 @@ body{margin:0;background:var(--bg);color:var(--text)}
   background:var(--accent);color:#052E16;font-weight:800;cursor:pointer
 }
 
-/* APP */
+/* ===== APP LAYOUT ===== */
 .app{display:flex;height:100vh}
-.sidebar{width:240px;background:var(--sidebar);border-right:1px solid var(--border);padding:20px}
+.sidebar{
+  width:240px;background:var(--sidebar);border-right:1px solid var(--border);padding:20px
+}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;margin-bottom:28px}
 .logo img{width:28px;height:28px}
 .nav a{
@@ -55,26 +57,62 @@ body{margin:0;background:var(--bg);color:var(--text)}
   display:flex;align-items:center;justify-content:space-between;
   padding:0 24px;background:var(--panel)
 }
-.search{background:#0B1220;border:1px solid var(--border);border-radius:12px;padding:8px 12px;width:260px;color:var(--text)}
+.search{
+  background:#0B1220;border:1px solid var(--border);
+  border-radius:12px;padding:8px 12px;width:260px;color:var(--text)
+}
 .user{color:var(--muted);font-size:13px}
 .content{padding:24px;overflow:auto}
 
-/* CARDS / TABLE / BUTTON (unchanged) */
+/* ===== CARDS ===== */
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px}
-.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--border);border-radius:18px;padding:18px}
+.card{
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  border:1px solid var(--border);border-radius:18px;padding:18px
+}
 .card h4{margin:0;font-size:12px;color:var(--muted)}
 .card .val{font-size:26px;font-weight:900;margin-top:6px}
+
+/* ===== GRID / PANELS ===== */
 .grid{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:24px}
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:18px}
+.panel{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:18px;padding:18px
+}
+
+/* ===== TABLE ===== */
 table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:12px;border-bottom:1px solid var(--border)}
-th{color:var(--muted)}
+th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left}
+th{color:var(--muted);font-weight:500}
 .amount{color:var(--accent);font-weight:800}
-.btn{padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:#0B1220;color:var(--text);cursor:pointer}
+.amount.out{color:var(--blue)}
+
+/* ===== BUTTONS / STATUS ===== */
+.btn{
+  padding:8px 12px;border-radius:10px;border:1px solid var(--border);
+  background:#0B1220;color:var(--text);cursor:pointer
+}
 .btn.primary{background:var(--accent);color:#052E16;border:none;font-weight:800}
+.btn.warn{background:#0B1220;color:#E5E7EB}
 .status{font-size:11px;padding:4px 8px;border-radius:999px}
 .run{background:#22c55e22;color:#4ade80}
 .pause{background:#ef444422;color:#f87171}
+
+/* ===== NOTIFICATION ===== */
+.notify{
+  position:fixed;top:18px;right:18px;width:300px;
+  background:#0F172A;border-left:4px solid #22C55E;
+  border-radius:14px;padding:14px 16px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);z-index:9999;
+  animation:slideIn .35s ease-out
+}
+.notify h4{margin:0;font-size:13px;font-weight:700}
+.notify p{margin:4px 0 0;font-size:12px;color:var(--muted)}
+@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ===== FOOTER LINKS ===== */
+.footer-links{display:flex;gap:14px;margin-top:12px}
+.footer-links a{color:var(--blue);text-decoration:none;font-size:12px}
 </style>
 </head>
 
@@ -88,9 +126,8 @@ th{color:var(--muted)}
     <input id="u" placeholder="Username">
     <input id="p" type="password" placeholder="Password">
     <button onclick="login()">Sign In</button>
-    <p style="margin-top:14px;font-size:12px;color:#94A3B8">
-      Admin: admin / admin123<br>
-      Demo: demo / demo123
+    <p style="margin-top:12px;color:var(--muted);font-size:12px">
+      Admin login only
     </p>
   </div>
 </div>
@@ -99,40 +136,43 @@ th{color:var(--muted)}
 <div class="app hidden" id="app">
   <aside class="sidebar">
     <div class="logo">
-      <img src="logo.svg"> Finaxis
+      <img src="logo.svg" alt="Finaxis"> Finaxis
     </div>
     <nav class="nav">
       <a class="active" onclick="show('home',this)">Home</a>
-      <a onclick="show('accounts',this)" id="accNav">Accounts</a>
-      <a onclick="show('transactions',this)">Transactions</a>
+      <a onclick="show('accounts',this)">Accounts</a>
+      <a onclick="show('history',this)">History</a>
+      <a onclick="show('legal',this)">Legal</a>
+      <a onclick="show('help',this)">How to Use</a>
     </nav>
   </aside>
 
   <section class="main">
     <div class="topbar">
       <input class="search" placeholder="Search…">
-      <div class="user" id="roleTxt"></div>
+      <div class="user">Admin · Finaxis</div>
     </div>
 
     <div class="content">
       <!-- HOME -->
       <div id="home">
         <div class="cards">
-          <div class="card"><h4>Total Gross Volume</h4><div class="val">₹ 12,50,000</div></div>
-          <div class="card"><h4>Net Balance</h4><div class="val">₹ 10,50,000</div></div>
-          <div class="card"><h4>Platform Fees (16%)</h4><div class="val">₹ 2,00,000</div></div>
-          <div class="card"><h4>Active Accounts</h4><div class="val">18</div></div>
+          <div class="card"><h4>Total Gross Volume</h4><div class="val" id="grossVal">₹ 0</div></div>
+          <div class="card"><h4>Platform Fees (16%)</h4><div class="val" id="feeVal">₹ 0</div></div>
+          <div class="card"><h4>Net Balance</h4><div class="val" id="netVal">₹ 0</div></div>
+          <div class="card"><h4>Active Accounts</h4><div class="val" id="activeCount">0</div></div>
         </div>
 
         <div class="grid">
           <div class="panel">
             <h4>Transaction Flow Overview</h4>
-            <canvas id="chart" height="120"></canvas>
+            <p style="color:var(--muted)">No data available</p>
           </div>
           <div class="panel">
-            <h4>Settlement Overview</h4>
-            <p>Fee Model: <b>16%</b></p>
-            <button class="btn primary" id="withdrawBtn">Withdraw Commission</button>
+            <h4>Commission Summary</h4>
+            <p>Rate: <b>16%</b></p>
+            <p>Commission Balance: <b id="commissionVal">₹ 0</b></p>
+            <button class="btn primary" onclick="withdrawCommission()">Withdraw Commission</button>
           </div>
         </div>
       </div>
@@ -141,21 +181,60 @@ th{color:var(--muted)}
       <div id="accounts" class="hidden">
         <div class="panel">
           <h4>Settlement Accounts</h4>
-          <table>
-            <thead><tr><th>Holder</th><th>Account</th><th>Status</th><th>Action</th></tr></thead>
+          <button class="btn primary" onclick="addAccount()">Add Account</button>
+          <table style="margin-top:12px">
+            <thead>
+              <tr>
+                <th>Holder</th><th>Account</th><th>Status</th><th>Action</th>
+              </tr>
+            </thead>
             <tbody id="accRows"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- TRANSACTIONS -->
-      <div id="transactions" class="hidden">
+      <!-- HISTORY -->
+      <div id="history" class="hidden">
         <div class="panel">
-          <h4>Transaction Ledger</h4>
+          <h4>Transaction History</h4>
           <table>
-            <thead><tr><th>Account</th><th>Gross</th><th>Fee</th><th>Net</th><th>Status</th></tr></thead>
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th>Gross</th>
+                <th>Fee (16%)</th>
+                <th>Net</th>
+                <th>Status</th>
+              </tr>
+            </thead>
             <tbody id="txnRows"></tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- LEGAL -->
+      <div id="legal" class="hidden">
+        <div class="panel">
+          <h4>Terms & Conditions</h4>
+          <p style="color:var(--muted);font-size:13px">
+            A standard Platform Fee of <b>16%</b> is applied to all processed transactions.
+            Fees are deducted from the gross amount prior to net credit.
+            This interface operates in a system-generated environment for administration and demonstration.
+          </p>
+        </div>
+      </div>
+
+      <!-- HELP -->
+      <div id="help" class="hidden">
+        <div class="panel">
+          <h4>How to Use</h4>
+          <ol style="color:var(--muted);font-size:13px">
+            <li>Add a settlement account.</li>
+            <li>Enable the account to start processing.</li>
+            <li>Credits appear only for enabled accounts.</li>
+            <li>View Gross, Fee (16%), and Net in History.</li>
+            <li>Disable an account to stop activity.</li>
+          </ol>
         </div>
       </div>
     </div>
@@ -163,69 +242,136 @@ th{color:var(--muted)}
 </div>
 
 <script>
-/* ===== USERS ===== */
-const USERS={
-  admin:{pass:"admin123",role:"Admin"},
-  demo:{pass:"demo123",role:"Demo"}
-};
-let currentRole="";
-
-/* ===== LOGIN ===== */
+/* ===== AUTH ===== */
+const AUTH = { user: 'admin', pass: 'admin123' };
 function login(){
-  if(USERS[u.value] && USERS[u.value].pass===p.value){
-    currentRole=USERS[u.value].role;
+  if(u.value===AUTH.user && p.value===AUTH.pass){
     loginWrap.classList.add('hidden');
     app.classList.remove('hidden');
-    roleTxt.textContent=currentRole+" User";
-    if(currentRole==="Demo"){
-      accNav.style.display="none";
-      withdrawBtn.style.display="none";
-    }
-    initChart(); render();
-  } else alert("Invalid login");
+  } else alert('Invalid credentials');
 }
 
-/* ===== DEMO DATA ===== */
-let accounts=[
-  {name:"Rahul Sharma",acc:"XXXXXX4582",active:true},
-  {name:"Amit Verma",acc:"XXXXXX1190",active:false}
-];
-let txns=[{acc:"Rahul Sharma",gross:25000},{acc:"Amit Verma",gross:12000}];
-
-/* ===== UI ===== */
+/* ===== NAV ===== */
 function show(id,el){
   document.querySelectorAll('.content > div').forEach(d=>d.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
   document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));
   el.classList.add('active');
 }
-function render(){
+
+/* ===== NOTIFY ===== */
+function notify(title,msg,type='credit'){
+  const n=document.createElement('div');
+  n.className='notify';
+  n.style.borderLeftColor = type==='credit'?'#22C55E':(type==='withdraw'?'#3B82F6':'#EF4444');
+  n.innerHTML=`<h4>${title}</h4><p>${msg}</p>`;
+  document.body.appendChild(n);
+  setTimeout(()=>n.remove(),4500);
+}
+
+/* ===== DATA & RULES ===== */
+const FEE_RATE = 0.16;
+const MAX_ACCOUNTS = 50;
+let accounts=[]; // {holder, acc, enabled:false}
+let totals={gross:0, fee:0, net:0};
+let commissionBalance=0;
+
+/* ===== CALC ===== */
+function calc(gross){
+  const fee=Math.round(gross*FEE_RATE);
+  const net=gross-fee;
+  return {fee,net};
+}
+
+/* ===== ACCOUNTS ===== */
+function addAccount(){
+  if(accounts.length>=MAX_ACCOUNTS){
+    notify('Limit Reached','Maximum 50 settlement accounts allowed','error');
+    return;
+  }
+  const holder=prompt('Account Holder Name');
+  if(!holder) return;
+  const acc='•••• '+Math.floor(1000+Math.random()*9000);
+  accounts.push({holder,acc,enabled:false});
+  renderAccounts();
+  notify('Account Added','Account is disabled. Click Enable to start.','credit');
+}
+
+function renderAccounts(){
   accRows.innerHTML='';
+  let active=0;
   accounts.forEach((a,i)=>{
+    if(a.enabled) active++;
     accRows.innerHTML+=`
       <tr>
-        <td>${a.name}</td>
+        <td>${a.holder}</td>
         <td>${a.acc}</td>
-        <td><span class="status ${a.active?'run':'pause'}">${a.active?'Running':'Paused'}</span></td>
-        <td>${currentRole==="Admin" ? `<button class="btn" onclick="toggle(${i})">${a.active?'Pause':'Run'}</button>`:'-'}</td>
+        <td><span class="status ${a.enabled?'run':'pause'}">${a.enabled?'Enabled':'Disabled'}</span></td>
+        <td>
+          ${
+            a.enabled
+              ? `<button class="btn warn" onclick="disableAcc(${i})">Disable</button>`
+              : `<button class="btn primary" onclick="enableAcc(${i})">Enable</button>`
+          }
+        </td>
       </tr>`;
   });
-  txnRows.innerHTML='';
-  txns.forEach(t=>{
-    const fee=Math.round(t.gross*0.16), net=t.gross-fee;
-    txnRows.innerHTML+=`
-      <tr><td>${t.acc}</td><td>₹ ${t.gross}</td><td>₹ ${fee}</td><td class="amount">₹ ${net}</td><td>Completed</td></tr>`;
-  });
+  document.getElementById('activeCount').textContent=active;
 }
-function toggle(i){accounts[i].active=!accounts[i].active;render();}
 
-/* ===== CHART ===== */
-function initChart(){
-  new Chart(document.getElementById('chart'),{
-    type:'bar',
-    data:{labels:['Jan','Feb','Mar','Apr','May','Jun'],datasets:[{data:[120,180,150,220,260,300],backgroundColor:'#3B82F6'}]},
-    options:{plugins:{legend:{display:false}}}
-  });
+function enableAcc(i){
+  accounts[i].enabled=true;
+  renderAccounts();
+  notify('Account Activated','Live processing enabled','credit');
+}
+
+function disableAcc(i){
+  accounts[i].enabled=false;
+  renderAccounts();
+  notify('Account Disabled','Processing stopped','error');
+}
+
+/* ===== TRANSACTIONS (SIMULATED, ONLY WHEN ENABLED) ===== */
+function addTransaction(){
+  const live=accounts.filter(a=>a.enabled);
+  if(live.length<1) return;
+  const target=live[Math.floor(Math.random()*live.length)];
+  const gross=Math.floor(500+Math.random()*49500);
+  const {fee,net}=calc(gross);
+
+  totals.gross+=gross; totals.fee+=fee; totals.net+=net;
+  commissionBalance+=fee;
+
+  document.getElementById('grossVal').textContent=`₹ ${totals.gross.toLocaleString()}`;
+  document.getElementById('feeVal').textContent=`₹ ${totals.fee.toLocaleString()}`;
+  document.getElementById('netVal').textContent=`₹ ${totals.net.toLocaleString()}`;
+  document.getElementById('commissionVal').textContent=`₹ ${commissionBalance.toLocaleString()}`;
+
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td>${target.holder}</td>
+    <td>₹ ${gross.toLocaleString()}</td>
+    <td>₹ ${fee.toLocaleString()} (16%)</td>
+    <td class="amount">₹ ${net.toLocaleString()}</td>
+    <td>Completed</td>`;
+  document.getElementById('txnRows').prepend(tr);
+
+  notify('Credit Processed',`Gross ₹${gross.toLocaleString()} · Fee ₹${fee.toLocaleString()} (16%) · Net ₹${net.toLocaleString()}`,'credit');
+}
+
+/* Start a safe interval; no activity until at least one account is enabled */
+setInterval(addTransaction, 7000);
+
+/* ===== WITHDRAW ===== */
+function withdrawCommission(){
+  if(commissionBalance<=0){
+    notify('No Balance','Commission balance is zero','error');
+    return;
+  }
+  const amt=commissionBalance;
+  commissionBalance=0;
+  document.getElementById('commissionVal').textContent='₹ 0';
+  notify('Commission Withdrawal',`₹ ${amt.toLocaleString()} processed`,'withdraw');
 }
 </script>
 
