@@ -1,94 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>NovaLedger Ops | Transaction Console</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>NovaLedger | Digital Wallet Console</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 :root{
-  --bg:#0f1115;
-  --panel:#171a1f;
-  --panel-2:#1e2229;
-  --border:#242833;
+  --bg:#0e1116;
+  --panel:#161a22;
+  --panel2:#1c2230;
+  --border:#252b3b;
   --accent:#22c55e;
   --text:#e5e7eb;
   --muted:#9ca3af;
 }
-*{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+*{box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
 body{margin:0;background:var(--bg);color:var(--text)}
 .hidden{display:none}
 
-/* ===== LOGIN ===== */
+/* LOGIN */
 .login-wrap{height:100vh;display:flex;align-items:center;justify-content:center}
 .login{
-  width:100%;max-width:380px;background:var(--panel);
-  border:1px solid var(--border);border-radius:18px;
-  padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.6)
+  width:360px;background:var(--panel);border:1px solid var(--border);
+  border-radius:18px;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.6)
 }
 .login h1{margin:0 0 6px;font-size:20px}
-.login p{margin:0 0 22px;color:var(--muted);font-size:13px}
+.login p{margin:0 0 20px;font-size:13px;color:var(--muted)}
 .login input{
-  width:100%;padding:12px 14px;margin-bottom:14px;
-  background:#0b0d12;border:1px solid var(--border);
+  width:100%;padding:12px;margin-bottom:14px;
+  background:#0b0e14;border:1px solid var(--border);
   color:var(--text);border-radius:12px
 }
 .login button{
   width:100%;padding:12px;border-radius:12px;border:none;
-  background:var(--accent);color:#022c22;font-weight:700;cursor:pointer
+  background:var(--accent);color:#052e1b;font-weight:700;cursor:pointer
 }
 
-/* ===== APP ===== */
-header{
-  position:sticky;top:0;z-index:5;
-  background:#0b0d12;border-bottom:1px solid var(--border);
-  padding:14px 18px;display:flex;align-items:center;justify-content:space-between
+/* APP */
+.app{display:flex;height:100vh}
+.sidebar{
+  width:220px;background:#0b0e14;border-right:1px solid var(--border);
+  padding:16px
 }
-.brand{display:flex;gap:10px;align-items:center}
-.brand b{font-size:15px}
-.badge{
-  font-size:11px;color:#052e1b;background:#16a34a22;
-  border:1px solid #16a34a44;padding:4px 8px;border-radius:999px
+.brand{font-weight:700;margin-bottom:24px}
+.nav a{
+  display:block;padding:10px 12px;margin-bottom:6px;
+  border-radius:10px;color:var(--text);text-decoration:none;font-size:14px
 }
-.user{font-size:12px;color:var(--muted)}
+.nav a.active,.nav a:hover{background:var(--panel2)}
 
-.container{max-width:420px;margin:auto;padding:18px}
+.main{flex:1;display:flex;flex-direction:column}
+.topbar{
+  padding:14px 18px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center
+}
+.badge{font-size:11px;background:#16a34a22;color:#4ade80;
+  padding:4px 8px;border-radius:999px;border:1px solid #16a34a44}
+
+.content{padding:20px;max-width:480px}
+
+/* CARDS */
 .card{
   background:var(--panel);border:1px solid var(--border);
   border-radius:18px;padding:18px;margin-bottom:16px
 }
 .card h2{margin:0;font-size:13px;color:var(--muted)}
-.balance{
-  display:flex;align-items:flex-end;justify-content:space-between;gap:10px
-}
-.balance p{margin:8px 0 0;font-size:28px;font-weight:700}
-.kpi{font-size:11px;color:var(--muted)}
+.balance{font-size:30px;font-weight:700;margin-top:8px}
 
-.list{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:18px;overflow:hidden
-}
-.list h3{
-  margin:0;padding:14px 16px;border-bottom:1px solid var(--border);
-  font-size:14px
-}
+/* HISTORY */
 .txn{
-  display:flex;justify-content:space-between;gap:10px;
-  padding:14px 16px;border-bottom:1px solid var(--border)
+  display:flex;justify-content:space-between;
+  padding:14px 0;border-bottom:1px solid var(--border)
 }
-.txn:last-child{border-bottom:none}
-.txn small{color:var(--muted)}
+.txn:last-child{border:none}
 .amount{color:var(--accent);font-weight:700}
+small{color:var(--muted)}
 
-/* ===== TOAST ===== */
+/* TOAST */
 .toast{
   position:fixed;top:18px;right:18px;
   background:#0b1220;border-left:4px solid var(--accent);
-  border-radius:14px;padding:14px 16px;
-  box-shadow:0 16px 40px rgba(0,0,0,.6);
-  animation:in .35s ease
+  padding:14px 16px;border-radius:14px;
+  box-shadow:0 16px 40px rgba(0,0,0,.6)
 }
-@keyframes in{from{transform:translateX(120%)}to{transform:translateX(0)}}
 </style>
 </head>
 
@@ -97,108 +92,117 @@ header{
 <!-- LOGIN -->
 <div class="login-wrap" id="loginWrap">
   <div class="login">
-    <h1>NovaLedger Ops</h1>
-    <p>Secure Transaction Console</p>
-    <input id="u" placeholder="Username" />
-    <input id="p" type="password" placeholder="Password" />
-    <button onclick="signin()">Sign In</button>
+    <h1>NovaLedger</h1>
+    <p>Secure Digital Wallet Console</p>
+    <input id="u" placeholder="Username">
+    <input id="p" type="password" placeholder="Password">
+    <button onclick="login()">Sign In</button>
   </div>
 </div>
 
 <!-- APP -->
-<div id="app" class="hidden">
-  <header>
-    <div class="brand">
-      <b>NovaLedger Ops</b>
+<div class="app hidden" id="app">
+  <div class="sidebar">
+    <div class="brand">NovaLedger</div>
+    <div class="nav">
+      <a href="#" class="active" onclick="show('home')">Home</a>
+      <a href="#" onclick="show('accounts')">Accounts</a>
+      <a href="#" onclick="show('history')">History</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <span id="userName"></span>
       <span class="badge">LIVE</span>
     </div>
-    <div class="user" id="who"></div>
-  </header>
 
-  <div class="container">
-    <div class="card">
-      <div class="balance">
-        <div>
+    <div class="content">
+
+      <!-- HOME -->
+      <div id="home">
+        <div class="card">
           <h2>Available Balance</h2>
-          <p id="bal">₹ 0</p>
+          <div class="balance" id="bal">₹ 0</div>
         </div>
-        <div class="kpi">Realtime</div>
       </div>
-    </div>
 
-    <div class="list">
-      <h3>Transaction Ledger</h3>
-      <div id="rows"></div>
+      <!-- ACCOUNTS -->
+      <div id="accounts" class="hidden">
+        <div class="card">
+          <h2>Linked Accounts</h2>
+          <p>Primary Operations</p>
+          <p>Settlement Wallet</p>
+          <p>Reserve Account</p>
+        </div>
+      </div>
+
+      <!-- HISTORY -->
+      <div id="history" class="hidden">
+        <div class="card">
+          <h2>Transaction History</h2>
+          <div id="rows"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
 <script>
-/* ==================================================
-   CONFIG SECTION — EDIT ONLY THIS BLOCK EACH TIME
-   ================================================== */
-const CONFIG = {
-  username: "admin",
-  password: "123456",
-  displayName: "Primary Operations Account",
-  minAmount: 500,
-  maxAmount: 50000,
-  minIntervalMs: 4000,
-  maxIntervalMs: 9000
+/* ===== CONFIG ===== */
+const CONFIG={
+  username:"admin",
+  password:"123456",
+  displayName:"Operations Wallet",
+  min:500,
+  max:50000
 };
-/* ================================================== */
+/* ================= */
 
-let balance = 0;
-const loginWrap = document.getElementById('loginWrap');
-const app = document.getElementById('app');
-const who = document.getElementById('who');
-const bal = document.getElementById('bal');
-const rows = document.getElementById('rows');
+let balance=0;
 
-function signin(){
+function login(){
   if(u.value===CONFIG.username && p.value===CONFIG.password){
     loginWrap.classList.add('hidden');
     app.classList.remove('hidden');
-    who.textContent = CONFIG.displayName;
-    loop();
-  } else {
-    alert('Invalid credentials');
-  }
+    userName.textContent=CONFIG.displayName;
+    simulate();
+  } else alert("Invalid login");
 }
 
-function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
-function now(){return new Date().toLocaleTimeString()}
-
-function toast(msg, sub){
-  const t=document.createElement('div');
-  t.className='toast';
-  t.innerHTML=`<strong>${msg}</strong><br><small>${sub}</small>`;
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(),4200);
+function show(id){
+  ['home','accounts','history'].forEach(x=>document.getElementById(x).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));
+  event.target.classList.add('active');
 }
 
 function credit(){
-  const amt = rand(CONFIG.minAmount, CONFIG.maxAmount);
-  balance += amt;
-  bal.textContent = `₹ ${balance.toLocaleString()}`;
+  const amt=Math.floor(Math.random()*(CONFIG.max-CONFIG.min+1))+CONFIG.min;
+  balance+=amt;
+  bal.textContent=`₹ ${balance.toLocaleString()}`;
 
-  const r=document.createElement('div');
-  r.className='txn';
-  r.innerHTML=`
+  const d=document.createElement('div');
+  d.className='txn';
+  d.innerHTML=`
     <div>
       <strong>Incoming Credit</strong><br>
-      <small>${now()}</small>
+      <small>${new Date().toLocaleTimeString()}</small>
     </div>
     <div class="amount">+ ₹ ${amt.toLocaleString()}</div>`;
-  rows.prepend(r);
+  rows.prepend(d);
 
-  toast('Credit Posted', `₹ ${amt.toLocaleString()} added successfully`);
+  const t=document.createElement('div');
+  t.className='toast';
+  t.innerHTML=`<strong>Credit Posted</strong><br><small>₹ ${amt.toLocaleString()} added</small>`;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),4000);
 }
 
-function loop(){
+function simulate(){
   credit();
-  const next = rand(CONFIG.minIntervalMs, CONFIG.maxIntervalMs);
-  setTimeout(loop, next);
+  setTimeout(simulate,Math.random()*6000+4000);
 }
 </script>
 
